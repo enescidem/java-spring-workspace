@@ -1,6 +1,7 @@
 package com.enescidem.services.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,8 +9,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.enescidem.dto.DtoCourse;
 import com.enescidem.dto.DtoStudent;
 import com.enescidem.dto.DtoStudentIU;
+import com.enescidem.entites.Course;
 import com.enescidem.entites.Student;
 import com.enescidem.repository.StudentRepository;
 import com.enescidem.services.IStudentService;
@@ -54,13 +57,24 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Override
 	public DtoStudent getStudentById(Integer id) {
-		DtoStudent dto= new DtoStudent();
-		Optional<Student> optional = studentRepository.findStudentById(id);
-		if(optional.isPresent()){//içi dolu mu sorgusu
+		DtoStudent dtoStudent = new DtoStudent();
+		Optional<Student> optional = studentRepository.findById(id);
+		if (optional.isPresent()) {
 			Student dbStudent = optional.get();
-			BeanUtils.copyProperties(dbStudent, dto);
+			BeanUtils.copyProperties(dbStudent, dtoStudent);
+			
+			if (dbStudent.getCourses()!=null && !dbStudent.getCourses().isEmpty()) {
+				for (Course course : dbStudent.getCourses() ) {
+					DtoCourse dtoCourse = new DtoCourse();
+					BeanUtils.copyProperties(course, dtoCourse);
+					
+					dtoStudent.getCourses().add(dtoCourse);
+				}
+			}
+			return dtoStudent;
 		}
-		return dto;
+		
+		return null;
 	}
 
 	@Override
