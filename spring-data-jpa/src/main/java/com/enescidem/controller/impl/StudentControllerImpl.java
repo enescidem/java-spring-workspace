@@ -17,6 +17,8 @@ import com.enescidem.dto.DtoStudent;
 import com.enescidem.dto.DtoStudentIU;
 import com.enescidem.services.IStudentService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/rest/api/student")
 public class StudentControllerImpl implements IStudentController{
@@ -27,9 +29,8 @@ public class StudentControllerImpl implements IStudentController{
 	
 	@PostMapping(path = "/save")
 	@Override
-	public DtoStudent saveStudent(@RequestBody DtoStudentIU dtoStudentIU) {
+	public DtoStudent saveStudent(@Valid @RequestBody DtoStudentIU dtoStudentIU) {
 		return studentService.saveStudent(dtoStudentIU);
-		
 	}
 	
 	@GetMapping(path = "/list")
