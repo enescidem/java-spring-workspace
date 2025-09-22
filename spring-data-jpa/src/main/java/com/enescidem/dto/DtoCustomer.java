@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(value = Include.NON_NULL)
+@JsonInclude(value = Include.NON_NULL)//null olan kisim varsa response etme
 public class DtoCustomer {
 	
 	private Long id;
