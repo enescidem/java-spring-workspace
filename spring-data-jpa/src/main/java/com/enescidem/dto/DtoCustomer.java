@@ -17,7 +17,6 @@ public class DtoCustomer {
 	
 	private String name;
 	
-	
 	private DtoAddress address;
 
 }
