@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.enescidem.dto.DtoDepartment;
 import com.enescidem.dto.DtoEmployee;
+import com.enescidem.exception.BaseException;
+import com.enescidem.exception.ErrorMessage;
+import com.enescidem.exception.MessageType;
 import com.enescidem.model.Department;
 import com.enescidem.model.Employee;
 import com.enescidem.repository.EmployeeRepository;
@@ -26,7 +29,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		
 		Optional<Employee> optional = employeeRepository.findById(id);
 		if(optional.isEmpty()) {
-			return null;
+			throw new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, id.toString()));
 		}
 		
 		Employee employee = optional.get();
